@@ -24,7 +24,8 @@ const cardDatas = [
 
 function App() {
   const [iscorrect, setIscorrect] = useState(false);
-  const correctPair = useSelector(state => state.correctPairReducer);
+  const correctPair = useSelector(state => state.cardReducers);
+  console.log(correctPair);
 const cards = cardDatas.map(item => <Card key={item.cssName} {...item} />)
   return (
     <div className="board">

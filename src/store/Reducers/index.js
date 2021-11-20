@@ -1,10 +1,7 @@
-   
-import { combineReducers } from "redux";
-import addOneReducer from "./addOneReducer";
-import correctPairReducer from  "./cardReducers"
+import { combineReducers } from 'redux';
+import cardReducers from './cardReducers';
 const rootReducer = combineReducers({
-  addOneReducer,
-  correctPairReducer
+  cardReducers,
 });
 
 export default rootReducer;
