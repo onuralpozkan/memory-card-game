@@ -13,19 +13,21 @@ const Card = ({ cssName, content, id, imgUrl }) => {
   const [selection, setSelection] = useState([]);
   const handleClick = (e) => {
     const card = document.querySelector(`.${cssName}`);
-    card.classList.toggle('is-flipped');
+    if(card.classList.contains('is-flipped')){
+      return;
+    }else {
+      card.classList.toggle('is-flipped');
+    }
     // console.log(e.target);
     // console.log(e.target.parentNode.parentNode.parentNode);
     const cardId = e.target.parentNode.parentNode.parentNode.dataset.id;
     arrs.push(cardId);
-    console.log('arrays', arrs);
     if (arrs[0] === arrs[1]) {
       dispatch(foundCorrectPair());
       setTimeout(() => {
         dispatch(resetState());
       }, 2500);
       setTimeout(() => {
-        //alert('Bildin amk ya')
         arrs = [];
       }, 200);
     } else {
@@ -42,8 +44,6 @@ const Card = ({ cssName, content, id, imgUrl }) => {
     }
     setSelection([...selection, cardId]);
   };
-
-  
   return (
     <>
       <div className="scene" onClick={(ev) => handleClick(ev)} data-id={id}>
