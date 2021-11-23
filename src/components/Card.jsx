@@ -1,32 +1,27 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { foundCorrectPair, resetState } from '../store/Actions/cardActions';
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { completeState, foundCorrectPair, resetState } from '../store/Actions/cardActions';
 import './Card.css';
 
 let arrs = [];
-const Card = ({ cssName, content, id, imgUrl }) => {
+const Card = ({ cssName, id, imgUrl, totalCards }) => {
   const dispatch = useDispatch();
-  const correctPair = useSelector((state) => state.cardReducers);
-
-  console.log('cPiar', correctPair);
-
   const [selection, setSelection] = useState([]);
   const handleClick = (e) => {
     const card = document.querySelector(`.${cssName}`);
+    // check if card is already selected
     if(card.classList.contains('is-flipped')){
       return;
     }else {
       card.classList.toggle('is-flipped');
     }
-    // console.log(e.target);
-    // console.log(e.target.parentNode.parentNode.parentNode);
     const cardId = e.target.parentNode.parentNode.parentNode.dataset.id;
     arrs.push(cardId);
     if (arrs[0] === arrs[1]) {
       dispatch(foundCorrectPair());
       setTimeout(() => {
         dispatch(resetState());
-      }, 2500);
+      }, 1250);
       setTimeout(() => {
         arrs = [];
       }, 200);
@@ -44,6 +39,16 @@ const Card = ({ cssName, content, id, imgUrl }) => {
     }
     setSelection([...selection, cardId]);
   };
+
+  // Check if game is finished
+  useEffect(() => {
+    const elems = document.querySelectorAll('.is-flipped');
+    if(elems.length === totalCards) {
+      setTimeout(()=>{
+        dispatch(completeState());
+      },1300)
+    }
+  }, [selection, totalCards, dispatch])
   return (
     <>
       <div className="scene" onClick={(ev) => handleClick(ev)} data-id={id}>

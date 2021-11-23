@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import './App.css';
 import Card from './components/Card';
+import Restart from './components/Restart';
 const cardDatas = [
   {
     cssName: 'card1',
@@ -100,6 +101,7 @@ const cardDatas = [
   },
 ];
 
+// shuffle the cards data
 function getShuffledArr(arr) {
   return [...arr].map((_, i, arrCopy) => {
     var rand = i + Math.floor(Math.random() * (arrCopy.length - i));
@@ -108,22 +110,26 @@ function getShuffledArr(arr) {
   });
 }
 const shuffledArr = getShuffledArr(cardDatas);
+
 function App() {
   const correctPair = useSelector((state) => state.cardReducers);
   const cards = shuffledArr.map((item) => (
-    <Card key={item.cssName} {...item} />
+    <Card key={item.cssName} {...item} totalCards={cardDatas.length} />
   ));
   return (
-    <div className="board">
+    <div className="main-container">
       <div className="description">
         <h1>Memory Card Game</h1>
       </div>
-      {cards}
+      {correctPair.isCompleted ? (
+        <Restart />
+      ) : (
+        <div className="board">{cards}</div>
+      )}
       <div className={correctPair.isCorrect ? 'popup' : 'popup hide'}>
         Niceee keep going !!!
       </div>
     </div>
   );
 }
-
 export default App;

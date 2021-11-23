@@ -10,3 +10,8 @@ export const resetState = () => {
     type: actionTypes.RESET_STATE,
   };
 };
+export const completeState = () => {
+  return {
+    type: actionTypes.COMPLETE_STATE,
+  };
+};

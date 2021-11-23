@@ -1,2 +1,3 @@
 export const CORRECT_PAIR = 'CORRECT_PAIR';
 export const RESET_STATE = 'RESET_STATE';
+export const COMPLETE_STATE = 'COMPLETE_STATE';
